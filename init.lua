@@ -140,6 +140,18 @@ vim.keymap.set("n", "<leader>co", "<cmd>copen<CR>", { desc = "Open quickfix list
 -- Shortcut to close the quickfix list
 vim.keymap.set("n", "<leader>cc", "<cmd>cclose<CR>", { desc = "Close quickfix list" })
 
+-- Automatically set cwd to the directory of the opened folder
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		local path = vim.fn.argv(0)
+		if vim.fn.isdirectory(path) == 1 then
+			vim.cmd("cd " .. path)
+		end
+	end,
+})
+
+-- MG END
+--
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
