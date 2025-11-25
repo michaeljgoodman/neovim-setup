@@ -42,3 +42,25 @@ Then, because the results of commands like this are stored to quicklists, you ha
 ### Nerd Font settings
 There is a setting at the top of the kickstart lua for if you have a nerd font. Not sure why but I set this to `true` as we are using one of those.
 
+
+### Context menu
+My nvim is located in 'C:\Program Files\Neovim\bin\nvim.exe' so I can run the following in an admin window:
+
+```
+# FILES - current user only
+New-Item -Path 'Registry::HKCU\Software\Classes\*\shell\Open with Neovim' -Force | Out-Null
+Set-ItemProperty -Path 'Registry::HKCU\Software\Classes\*\shell\Open with Neovim' -Name '(default)' -Value 'Open with Neovim'
+Set-ItemProperty -Path 'Registry::HKCU\Software\Classes\*\shell\Open with Neovim' -Name 'Icon' -Value 'C:\Program Files\Neovim\bin\nvim.exe'
+
+New-Item -Path 'Registry::HKCU\Software\Classes\*\shell\Open with Neovim\command' -Force | Out-Null
+Set-ItemProperty -Path 'Registry::HKCU\Software\Classes\*\shell\Open with Neovim\command' -Name '(default)' -Value '"C:\Program Files\Neovim\bin\nvim.exe" "%1"'
+
+# FOLDERS - current user only
+New-Item -Path 'Registry::HKCU\Software\Classes\Directory\shell\Open with Neovim' -Force | Out-Null
+Set-ItemProperty -Path 'Registry::HKCU\Software\Classes\Directory\shell\Open with Neovim' -Name '(default)' -Value 'Open with Neovim'
+Set-ItemProperty -Path 'Registry::HKCU\Software\Classes\Directory\shell\Open with Neovim' -Name 'Icon' -Value 'C:\Program Files\Neovim\bin\nvim.exe'
+
+New-Item -Path 'Registry::HKCU\Software\Classes\Directory\shell\Open with Neovim\command' -Force | Out-Null
+Set-ItemProperty -Path 'Registry::HKCU\Software\Classes\Directory\shell\Open with Neovim\command' -Name '(default)' -Value '"C:\Program Files\Neovim\bin\nvim.exe" "%1"'
+
+```
