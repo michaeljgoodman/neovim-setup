@@ -99,7 +99,7 @@ vim.g.have_nerd_font = true
 --  For more options, you can see `:help option-list`
 -- Append to wildignore
 vim.opt.wildignore:append("**/*.xlsx")
-vim.opt.wildignore:append("tests/test_data")
+vim.opt.wildignore:append("tests/test_data/**")
 vim.opt.wildignore:append("outputs/**")
 vim.opt.wildignore:append("output/**")
 
@@ -149,6 +149,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		end
 	end,
 })
+
+-- change working dir to target dir
+vim.o.autochdir = true
 
 -- MG END
 --
@@ -834,7 +837,7 @@ require("lazy").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
-				-- python = { "isort", "black" },
+				python = { "isort", "black" },
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
 				-- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -1053,6 +1056,13 @@ require("lazy").setup({
 		-- use opts = {} for passing setup options
 		-- this is equivalent to setup({}) function
 	},
+	{
+		"michaeljgoodman/poetry-nvim-windows", -- replace with your fork's GitHub repo
+		config = function()
+			require("poetry-nvim").setup()
+		end,
+	},
+
 	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
 	-- place them in the correct locations.
