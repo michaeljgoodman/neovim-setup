@@ -25,6 +25,7 @@ Because we used the kickstart init.lua to set this up, we need to put our modifi
 use `/MICHAEL` to search for the section where I add settings and also `[[` to find the various sections they encourage adding settings to. I added some under the `[[ Add settings here` section.
 
 I have added so far:
+
 ### Changes for grepping
 `:vimgrep` is the command to search multiple files
 `:vimgrep maxmind **/*` searches all files for 'maxmind' for example
@@ -42,8 +43,26 @@ Then, because the results of commands like this are stored to quicklists, you ha
 ### Nerd Font settings
 There is a setting at the top of the kickstart lua for if you have a nerd font. Not sure why but I set this to `true` as we are using one of those.
 
+### Poetry
+We've included my own fork of someone's poetry plugin, that we have named `nvim-poetry-windows`
 
-### Context menu
+This is just a simple plugin to activate the relevant poetry environment.
+
+We have also set autochdir, to enable things like poetry to be running out of the folder that we pointed nvim at. For example if I am in `C:\Users\Michael` and I run `nvim .\Documents\my_project`, our working dir should be set to `my_project` automatically, such that poetry can pick up `my_project\pyproject.toml`.
+
+This appears to work.
+
+### Ruff + Pyright
+Using `:Mason` and `I` to install and `X` to uninstall, we install ruff and pyright.
+
+We then add the following to pyproject.toml to turn on linting rules:
+```
+[tool.ruff]
+line-length = 88
+extend-select = ["E501"]
+```
+
+## Context menu
 My nvim is located in 'C:\Program Files\Neovim\bin\nvim.exe' so I can run the following in an admin window:
 
 ```
