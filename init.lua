@@ -141,18 +141,19 @@ vim.keymap.set("n", "<leader>co", "<cmd>copen<CR>", { desc = "Open quickfix list
 vim.keymap.set("n", "<leader>cc", "<cmd>cclose<CR>", { desc = "Close quickfix list" })
 
 -- Automatically set cwd to the directory of the opened folder
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = function()
-		local path = vim.fn.argv(0)
-		if vim.fn.isdirectory(path) == 1 then
-			vim.cmd("cd " .. path)
-		end
-	end,
-})
+--vim.api.nvim_create_autocmd("VimEnter", {
+--	callback = function()
+--		local path = vim.fn.argv(0)
+--		if vim.fn.isdirectory(path) == 1 then
+--			vim.cmd("cd " .. path)
+--		end
+--	end,
+--})
 
 -- change working dir to target dir
-vim.o.autochdir = true
+-- vim.o.autochdir = true
 
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
 -- MG END
 --
 -- Make line numbers default
@@ -741,7 +742,6 @@ require("lazy").setup({
 			local servers = {
 				-- clangd = {},
 				-- gopls = {},
-				-- pyright = {},
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
@@ -1056,13 +1056,28 @@ require("lazy").setup({
 		-- use opts = {} for passing setup options
 		-- this is equivalent to setup({}) function
 	},
+	-- Lazy.nvim plugin block
+
 	{
-		"michaeljgoodman/poetry-nvim-windows", -- replace with your fork's GitHub repo
+		"richardhapb/pytest.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = {}, -- Define the options here
+		config = function(_, opts)
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = { "python", "xml" },
+			})
+
+			require("pytest").setup(opts)
+		end,
+	},
+	-- start poetry-windows
+	{
+		"michaeljgoodman/poetry-nvim-windows",
 		config = function()
 			require("poetry-nvim").setup()
 		end,
 	},
-
+	-- end poetry windows
 	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
 	-- place them in the correct locations.
