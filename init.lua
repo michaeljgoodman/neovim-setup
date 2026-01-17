@@ -154,6 +154,10 @@ vim.keymap.set("n", "<leader>cc", "<cmd>cclose<CR>", { desc = "Close quickfix li
 -- vim.o.autochdir = true
 
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
+
+-- Bind <leader>lr to restart LSP
+vim.keymap.set("n", "<leader>lr", vim.cmd.LspRestart, { noremap = true, silent = true, desc = "Restart LSP" })
+
 -- MG END
 --
 -- Make line numbers default
@@ -427,7 +431,6 @@ require("lazy").setup({
 				-- `build` is used to run some command when the plugin is installed/updated.
 				-- This is only run then, not every time Neovim starts up.
 				build = "make",
-
 				-- `cond` is a condition used to determine whether this plugin should be
 				-- installed and loaded.
 				cond = function()
@@ -607,6 +610,7 @@ require("lazy").setup({
 					-- Jump to the implementation of the word under your cursor.
 					--  Useful when your language has ways of declaring types without an actual implementation.
 					map("gri", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+					map("<leader>i", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 
 					-- Jump to the definition of the word under your cursor.
 					--  This is where a variable was first declared, or where a function is defined, etc.
@@ -616,6 +620,7 @@ require("lazy").setup({
 					-- WARN: This is not Goto Definition, this is Goto Declaration.
 					--  For example, in C this would take you to the header.
 					map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+					map("<leader>d", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
@@ -837,7 +842,7 @@ require("lazy").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
-				python = { "black" },
+				-- python = { "black" },
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
 				-- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -1077,7 +1082,25 @@ require("lazy").setup({
 			require("poetry-nvim").setup()
 		end,
 	},
+
+	{
+		"opdavies/toggle-checkbox.nvim",
+		config = function()
+			vim.keymap.set("n", "<leader>tt", ":lua require('toggle-checkbox').toggle()<CR>")
+		end,
+	},
 	-- end poetry windows
+
+	{
+		'MeanderingProgrammer/render-markdown.nvim',
+		dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' },            -- if you use the mini.nvim suite
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+	},
+
 	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
 	-- place them in the correct locations.
